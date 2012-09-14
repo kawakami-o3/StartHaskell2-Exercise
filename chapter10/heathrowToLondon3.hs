@@ -15,31 +15,27 @@ data Label = A | B | C deriving (Show)
 type Path = ([Label],Int)
 
 roadStep :: (Path, Path) -> Section -> (Path, Path)
-roadStep (pathA, pathB) (Section a b c) =
-  let timeA = snd pathA
-      timeB = snd pathB
-      forwardTimeToA = timeA + a
+roadStep ((pathA,timeA), (pathB,timeB)) (Section a b c) =
+  let forwardTimeToA = timeA + a
       crossTimeToA = timeB + b + c
       forwardTimeToB = timeB + b
       crossTimeToB = timeA + a + c
       newPathToA = if forwardTimeToA <= crossTimeToA
-                      then (A:(fst pathA), timeA+a)
-                      else (C:B:(fst pathB), timeB+b+c)
+                      then (A:pathA, timeA+a)
+                      else (C:B:pathB, timeB+b+c)
       newPathToB = if forwardTimeToB <= crossTimeToB
-                      then (B:(fst pathB), timeB+b)
-                      else (C:A:(fst pathA), timeA+a+c)
-                      --then (B,b):pathB
-                      --else (C,c):(A,a):pathA
+                      then (B:pathB, timeB+b)
+                      else (C:A:pathA, timeA+a+c)
   in (newPathToA, newPathToB)
 
 
 
 optimalPath :: RoadSystem -> Path
 optimalPath roadSystem =
-  let (bestAPath, bestBPath) = foldl roadStep (([],0),([],0)) roadSystem
-  in if (snd bestAPath) <= (snd bestBPath)
-          then (reverse (fst bestAPath), snd bestAPath)
-          else (reverse (fst bestBPath), snd bestBPath)
+  let ((pathA, timeA), (pathB, timeB)) = foldl roadStep (([],0),([],0)) roadSystem
+  in if timeA <= timeB
+          then (reverse pathA, timeA)
+          else (reverse pathB, timeB)
 
 groupsOf :: Int -> [a] -> [[a]]
 groupsOf 0 _ = undefined
