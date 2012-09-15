@@ -22,7 +22,6 @@ genPath []= [[]]
 genPath xs = map fst (genPath' xs)
   where
     genPath' :: RoadSystem -> [PathEnd]
-    genPath [] = error "Error> genPath"
     genPath' (x:[]) = [([(A,getA x)],A),([(B,getB x)],B)]
     genPath' (x:xs) =
       let paths = genPath' xs
