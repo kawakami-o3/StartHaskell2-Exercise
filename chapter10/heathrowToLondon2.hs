@@ -52,4 +52,5 @@ main = do
       pathTime = sum $ map snd path
   putStrLn $ "The best path to take is: " ++ pathString
   putStrLn $ "Time taken: " ++ show pathTime
+--putStrLn $ show path
 
