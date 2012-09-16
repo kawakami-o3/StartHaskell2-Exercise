@@ -58,7 +58,7 @@ main = do
       tmp = genPath [Section {getA = 50, getB = 10, getC = 30}]
   putStrLn $ "The best path to take is: " ++ pathString
   putStrLn $ "Time taken: " ++ show pathTime
---putStrLn $ show path
+--putStrLn $ show (genPath [Section {getA = 50, getB = 10, getC = 30}])
 --putStrLn $ show roadSystem
 --putStrLn $ show paths
 --putStrLn $ show tmp
